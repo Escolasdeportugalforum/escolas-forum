@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolas de Portugal FORUM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Escolas de Portugal FORUM</h1>
+        <div id="auth-block">
+            <span id="user-info"></span>
+            <button id="login-btn" onclick="showLoginForm()">Entrar</button>
+            <button id="admin-btn" style="display: none;" onclick="location.href='/admin.html'">Admin</button>
+            <button id="logout-btn" style="display: none;" onclick="logout()">Sair</button>
+        </div>
+    </header>
+
+    <main>
+        <h2>Cidades</h2>
+        <div id="categories-list">
+            <!-- Категории будут загружены через JavaScript -->
+            <div class="category-card">
+                <h3>Porto</h3>
+                <p>Tópicos: 0</p>
+                <button onclick="viewCategory('porto')">Ver Tópicos</button>
+            </div>
+            <div class="category-card">
+                <h3>Lisboa</h3>
+                <p>Tópicos: 0</p>
+                <button onclick="viewCategory('lisboa')">Ver Tópicos</button>
+            </div>
+            <div class="category-card">
+                <h3>Coimbra</h3>
+                <p>Tópicos: 0</p>
+                <button onclick="viewCategory('coimbra')">Ver Tópicos</button>
+            </div>
+            <div class="category-card">
+                <h3>Outras</h3>
+                <p>Tópicos: 0</p>
+                <button onclick="viewCategory('outras')">Ver Tópicos</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно входа -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginForm()">&times;</span>
+            <h2>Entrar / Registar</h2>
+            <form onsubmit="handleAuth(event)">
+                <label for="username">Nome de utilizador (ÚNICO):</label>
+                <input type="text" id="username" name="username" required>
+                <button type="submit">Entrar</button>
+            </form>
+            <p id="auth-message"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
