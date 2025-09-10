@@ -111,4 +111,50 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+// Добавляем схему для категорий
+const categorySchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    description: String
+});
+
+const topicSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+    authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    createdAt: { type: Date, default: Date.now }
+});
+
+const Category = mongoose.model('Category', categorySchema);
+const Topic = mongoose.model('Topic', topicSchema);
+
+// Эндпоинт для получения всех данных
+app.get('/api/data', async (req, res) => {
+    try {
+        const [users, categories, topics] = await Promise.all([
+            User.find(),
+            Category.find(),
+            Topic.find().populate('authorId')
+        ]);
+        
+        res.json({ users, categories, topics });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Создаем начальные категории если их нет
+async function createInitialCategories() {
+    const categoriesCount = await Category.countDocuments();
+    if (categoriesCount === 0) {
+        const initialCategories = [
+            { name: "Porto" },
+            { name: "Lisboa" },
+            { name: "Coimbra" },
+            { name: "Outras" }
+        ];
+        await Category.insertMany(initialCategories);
+        console.log("Initial categories created");
+    }
+}
 });
